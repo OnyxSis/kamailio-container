@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     nginx \
     certbot \
-    python-certbot-nginx 
+    python-certbot-nginx \
+    cron
 
 RUN curl -sSL https://git.io/get-mo -o /usr/bin/mo && chmod +x /usr/bin/mo
 
@@ -37,7 +38,6 @@ RUN chmod 755 /usr/bin/dumb-init
 ADD ./configs /etc/kamailio
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
-RUN kamdbctl create /etc/kamailio/kamailio.sqlite
 RUN touch /env.sh
 ENTRYPOINT ["/run.sh"]
 CMD ["/usr/sbin/kamailio", "-DD", "-P", "/var/run/kamailio.pid", "-f", "/etc/kamailio/kamailio.cfg"]
